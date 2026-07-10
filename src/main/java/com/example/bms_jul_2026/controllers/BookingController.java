@@ -18,7 +18,18 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
-    public CreateBookingResponseDto createBooking(CreateBookingRequestDto requestDto) throws UserNotFoundException, ShowNotFoundException {
-       return null;
+    public CreateBookingResponseDto createBooking(CreateBookingRequestDto requestDto) {
+       CreateBookingResponseDto responseDto = new CreateBookingResponseDto();
+
+       try {
+           Booking booking = bookingService.createBooking(requestDto.getUserId(), requestDto.getShowId(), requestDto.getShowSeatIds());
+
+           responseDto.setBookingId(booking.getId());
+           responseDto.setResponseStatus(ResponseStatus.SUCCESS);
+       } catch (Exception e) {
+           responseDto.setResponseStatus(ResponseStatus.FAILURE);
+       }
+
+       return responseDto;
     }
 }
